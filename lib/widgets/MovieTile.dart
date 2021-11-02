@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:cinema/widgets/Bottom.dart';
 
 class MovieTile extends StatefulWidget {
   final String url;
@@ -13,7 +14,7 @@ class MovieTile extends StatefulWidget {
 }
 
 class _MovieTileState extends State<MovieTile> {
-  String image='';
+  String image = '';
 
   Future downloadImage() async {
     Reference ref = FirebaseStorage.instance.ref().child(widget.url);
@@ -34,6 +35,16 @@ class _MovieTileState extends State<MovieTile> {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: GestureDetector(
+        onTap: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return Bottom(
+                  url: image,
+                  title: widget.title,
+                );
+              });
+        },
         child: Container(
           child: Align(
             alignment: Alignment.topLeft,
