@@ -2,6 +2,7 @@ import 'package:cinema/screens/CardScreen.dart';
 import 'package:cinema/screens/HomeScreen.dart';
 import 'package:cinema/screens/SettingScreen.dart';
 import 'package:cinema/screens/supporting/Navigation.dart';
+import 'package:cinema/storages/UserData.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,15 @@ import 'login/LogInScreen.dart';
 import 'login/LogRegScreen.dart';
 import 'login/RegisterScreen.dart';
 
+UserData _userData = UserData();
+Widget _defaultHome = LogRegScreen();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  bool? _result = await _userData.getLogged();
+  if (_result == true) {
+    _defaultHome = Navigation();
+  }
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -25,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LogRegScreen(),
+      home: _defaultHome,
       routes: {
         Navigation.id: (context) => Navigation(),
         HomeScreen.id: (context) => HomeScreen(),

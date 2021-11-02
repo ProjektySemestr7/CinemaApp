@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:cinema/screens/supporting/Navigation.dart';
+import 'package:cinema/storages/UserData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -10,6 +14,27 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
+  UserData _userData = UserData();
+  final _auth = FirebaseAuth.instance;
+
+  bool card = false;
+  late String _email;
+  late String _password = '';
+
+  bool _allow = false;
+
+  void checkAllow() {
+    if ((_email != null) && (_password != null)) {
+      setState(() {
+        _allow = true;
+      });
+    } else {
+      setState(() {
+        _allow = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -39,7 +64,14 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           Container(
                             width: 200,
-                            child: TextField(),
+                            child: TextField(
+                              onChanged: (input) {
+                                setState(() {
+                                  _email = input;
+                                  checkAllow();
+                                });
+                              },
+                            ),
                           )
                         ],
                       ),
@@ -55,14 +87,33 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           Container(
                             width: 200,
-                            child: TextField(),
+                            child: TextField(
+                              obscureText: true,
+                              onChanged: (input) {
+                                _password = input;
+                                checkAllow();
+                              },
+                            ),
                           ),
                         ],
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text('Zaloguj'),
-                      ),
+                      _allow
+                          ? ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  _auth.signInWithEmailAndPassword(
+                                      email: _email, password: _password);
+                                  _userData.saveEmail(_email);
+                                  _userData.savePassword(_password);
+                                  _userData.saveLogged(true);
+                                  Navigator.pushNamed(context, Navigation.id);
+                                } catch (e) {
+                                  print(e);
+                                }
+                              },
+                              child: Text('Zaloguj'),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),
