@@ -14,6 +14,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+
   UserData _userData = UserData();
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
@@ -27,14 +28,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _allow = false;
 
   void checkAllow() {
-    if ((_email != null) &&
-        (_password != null) &&
-        (_name != null) &&
-        (_surname != null)) {
+    if((_email != null) && (_password != null) && (_name != null) && (_surname != null)) {
       setState(() {
         _allow = true;
       });
-    } else {
+    }
+    else {
       setState(() {
         _allow = false;
       });
@@ -68,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextField(
@@ -89,6 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextField(
@@ -99,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                           ),
+
                         ],
                       ),
                       Row(
@@ -111,6 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextField(
@@ -132,6 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextField(
@@ -141,8 +145,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                           ),
+
                         ],
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -153,56 +159,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextButton(
-                              onPressed: () {
+                              onPressed: (){
                                 setState(() {
                                   card = !card;
                                 });
                               },
-                              child: card
-                                  ? Icon(
-                                      Icons.local_play,
-                                      color: Colors.blueAccent,
-                                    )
-                                  : Icon(
-                                      Icons.close,
-                                      color: Colors.blueAccent,
-                                    ),
+                              child: card ? Icon(Icons.local_play,
+                              color: Colors.blueAccent,):Icon(Icons.close,
+                                color: Colors.blueAccent,),
                             ),
                           ),
+
                         ],
                       ),
-                      _allow
-                          ? ElevatedButton(
-                              onPressed: () async {
-                                _userData.saveLogged(true);
-                                try {
-                                  final newUser = await _auth
-                                      .createUserWithEmailAndPassword(
-                                          email: _email, password: _password);
-                                  _firestore
-                                      .collection('userData')
-                                      .doc(_email)
-                                      .set({
-                                    'name': _name,
-                                    'surname': _surname,
-                                    'card': card
-                                  });
-                                  if (newUser != null) {
-                                    _userData.saveEmail(_email);
-                                    _userData.savePassword(_password);
 
-                                    Navigator.pushNamed(context, Navigation.id);
-                                  }
-                                } catch (e) {
-                                  print(e);
-                                }
-                              },
-                              child: Text('Zarejestruj'),
-                            )
-                          : Container(),
+                      _allow ?ElevatedButton(
+                        onPressed: () async{
+                          _userData.saveLogged(true);
+                          try {
+                            final newUser = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
+                            _firestore.collection('userData').doc(_email).set({
+                              'name':_name,
+                              'surname':_surname,
+                              'card':card
+                            });
+                            if (newUser != null) {
+                              _userData.saveEmail(_email);
+                              _userData.savePassword(_password);
+
+                              Navigator.pushNamed(context, Navigation.id);
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Text('Zarejestruj'),
+                      ) : Container(),
                     ],
                   ),
                 ),

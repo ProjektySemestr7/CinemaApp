@@ -71,38 +71,36 @@ class _ShowingState extends State<Showing> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               StreamBuilder<QuerySnapshot>(
-                                stream: _firestore
-                                    .collection('showings')
-                                    .doc(this.widget.id)
-                                    .collection('seats')
-                                    .snapshots(),
+                                stream: _firestore.collection('showings').doc(this.widget.id).collection('seats').snapshots(),
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
+                                  if (snapshot.hasData){
                                     final cards = snapshot.data!.docs;
                                     List<DropdownMenuItem<String>> seats = [];
 
-                                    for (var card in cards) {
+                                    for(var card in cards){
                                       final title = card.id.toString();
                                       final cardWidget = DropdownMenuItem(
-                                        child: Text(title),
+                                          child: Text(title),
                                         value: '$title',
                                       );
                                       seats.add(cardWidget);
                                     }
                                     return DropdownButton(
-                                      style:
-                                          TextStyle(color: Colors.blueAccent),
+                                        style: TextStyle(
+                                          color: Colors.blueAccent
+                                        ),
                                       items: seats,
                                       onChanged: (value) {
-                                        setState(() {
-                                          _selectedRow = value.toString();
-                                        });
-                                        checkAllow();
+                                          setState(() {
+                                            _selectedRow = value.toString();
+                                          });
+                                          checkAllow();
                                       },
                                       hint: Text(
                                         _selectedRow,
-                                        style:
-                                            TextStyle(color: Colors.blueAccent),
+                                        style: TextStyle(
+                                          color: Colors.blueAccent
+                                        ),
                                       ),
                                     );
                                   } else {
@@ -113,19 +111,13 @@ class _ShowingState extends State<Showing> {
                                 },
                               ),
                               StreamBuilder<QuerySnapshot>(
-                                stream: _firestore
-                                    .collection('showings')
-                                    .doc(this.widget.id)
-                                    .collection('seats')
-                                    .doc(_selectedRow)
-                                    .collection('place')
-                                    .snapshots(),
+                                stream: _firestore.collection('showings').doc(this.widget.id).collection('seats').doc(_selectedRow).collection('place').snapshots(),
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
+                                  if (snapshot.hasData){
                                     final cards = snapshot.data!.docs;
                                     List<DropdownMenuItem<String>> seats = [];
 
-                                    for (var card in cards) {
+                                    for(var card in cards){
                                       final title = card.id.toString();
                                       final available = card['available'];
                                       final cardWidget = DropdownMenuItem(
@@ -135,8 +127,9 @@ class _ShowingState extends State<Showing> {
                                       seats.add(cardWidget);
                                     }
                                     return DropdownButton(
-                                      style:
-                                          TextStyle(color: Colors.blueAccent),
+                                      style: TextStyle(
+                                          color: Colors.blueAccent
+                                      ),
                                       items: seats,
                                       onChanged: (value) {
                                         setState(() {
@@ -146,8 +139,9 @@ class _ShowingState extends State<Showing> {
                                       },
                                       hint: Text(
                                         _selectedPlace,
-                                        style:
-                                            TextStyle(color: Colors.blueAccent),
+                                        style: TextStyle(
+                                            color: Colors.blueAccent
+                                        ),
                                       ),
                                     );
                                   } else {
@@ -164,36 +158,34 @@ class _ShowingState extends State<Showing> {
                     ),
                     actions: [
                       TextButton(
-                        onPressed: () {
-                          if (_allow) {
-                            String data =
-                                widget.date.replaceAll('/', '').trim();
-                            _firestore
-                                .collection('userData')
-                                .doc(_email)
-                                .collection('tickets')
-                                .doc(data.replaceAll(' ', ''))
-                                .set({
-                              'date': widget.date,
-                              'movie': widget.movie,
-                              'cinema': widget.city,
-                              'row': _selectedRow,
-                              'seat': _selectedPlace
-                            });
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('Tak!',
-                            style: TextStyle(color: Colors.blueAccent)),
+                          onPressed: (){
+                            if (_allow) {
+                              String data = widget.date.replaceAll('/', '').trim();
+                              _firestore
+                                  .collection('userData')
+                                  .doc(_email)
+                                  .collection('tickets')
+                                  .doc(data.replaceAll(' ', ''))
+                                  .set({
+                                'date':widget.date,
+                                'movie':widget.movie,
+                                'cinema':widget.city,
+                                'row':_selectedRow,
+                                'seat':_selectedPlace
+                              });
+                              Navigator.pop(context);
+                            }
+                          },
+                        child: const Text(
+                            'Tak!',
+                                style: TextStyle(color:  Colors.blueAccent)
+                        ),
                       ),
                       TextButton(
-                        onPressed: () {
+                        onPressed: (){
                           Navigator.pop(context);
                         },
-                        child: Text(
-                          'Anuluj',
-                          style: TextStyle(color: Colors.blueAccent),
-                        ),
+                        child: Text('Anuluj', style: TextStyle(color: Colors.blueAccent),),
                       )
                     ],
                   );

@@ -24,17 +24,26 @@ class _BottomState extends State<Bottom> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        color: Colors.amberAccent.withOpacity(0.3),
+        color: Colors.amberAccent.withOpacity(0.5),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CircleAvatar(
-                maxRadius: MediaQuery.of(context).size.height / 6,
-                backgroundImage: NetworkImage(widget.url),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  maxRadius: MediaQuery.of(context).size.height / 6,
+                  backgroundImage: NetworkImage(widget.url),
+                ),
               ),
               Text(
                 widget.title,
-                style: TextStyle(color: Colors.blueAccent, fontSize: 30),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.blueAccent,
+                    letterSpacing: 1.1,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    ),
               ),
               StreamBuilder<QuerySnapshot>(
                 stream: _firestore.collection('cinemas').snapshots(),
@@ -76,44 +85,40 @@ class _BottomState extends State<Bottom> {
               SizedBox(
                 height: 10,
               ),
-              StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('showings').snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final cards = snapshot.data!.docs;
-                    List<Showing> showings = [];
-                    for (var card in cards) {
-                      var formatter = new DateFormat('dd/MM/yyyy hh:mm');
-                      final date =
-                          formatter.format(card['start'].toDate()).toString();
-                      final movieT = card['movie'].toString();
-                      final cinemaT = card['cinema'].toString();
-                      final id = card.id.toString();
-                      final cardWidget = Showing(
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('showings').snapshots(),
+              builder: (context, snapshot){
+                if (snapshot.hasData){
+                  final cards = snapshot.data!.docs;
+                  List<Showing> showings = [];
+                  for (var card in cards){
+                    var formatter = new DateFormat('dd/MM/yyyy hh:mm');
+                    final date = formatter.format(card['start'].toDate()).toString();
+                    final movieT = card['movie'].toString();
+                    final cinemaT = card['cinema'].toString();
+                    final id = card.id.toString();
+                    final cardWidget = Showing(
                         date: date,
                         id: id,
-                        city: cinemaT,
+                      city: cinemaT,
                         movie: movieT,
-                      );
+                    );
 
-                      if (movieT == widget.title &&
-                          cinemaT == _selectedCinema) {
-                        showings.add(cardWidget);
-                      }
+                    if (movieT == widget.title && cinemaT == _selectedCinema) {
+                      showings.add(cardWidget);
                     }
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Wrap(
-                        children: showings,
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      child: Text('Brak pokazów'),
-                    );
                   }
-                },
-              )
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                      children: showings,
+                    ),
+                  );
+                } else {
+                  return Container(child: Text('Brak pokazów'),);
+                }
+              },
+            )
             ],
           ),
         ),

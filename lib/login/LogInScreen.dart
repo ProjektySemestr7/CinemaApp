@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:cinema/screens/supporting/Navigation.dart';
 import 'package:cinema/storages/UserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -14,21 +14,23 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
+
   UserData _userData = UserData();
   final _auth = FirebaseAuth.instance;
 
   bool card = false;
   late String _email;
-  late String _password = '';
+  late String _password;
 
   bool _allow = false;
 
   void checkAllow() {
-    if ((_email != null) && (_password != null)) {
+    if((_email != null) && (_password != null)) {
       setState(() {
         _allow = true;
       });
-    } else {
+    }
+    else {
       setState(() {
         _allow = false;
       });
@@ -62,6 +64,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextField(
@@ -85,6 +88,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               fontSize: 25,
                             ),
                           ),
+
                           Container(
                             width: 200,
                             child: TextField(
@@ -95,25 +99,24 @@ class _LogInScreenState extends State<LogInScreen> {
                               },
                             ),
                           ),
+
                         ],
                       ),
-                      _allow
-                          ? ElevatedButton(
-                              onPressed: () async {
-                                try {
-                                  _auth.signInWithEmailAndPassword(
-                                      email: _email, password: _password);
-                                  _userData.saveEmail(_email);
-                                  _userData.savePassword(_password);
-                                  _userData.saveLogged(true);
-                                  Navigator.pushNamed(context, Navigation.id);
-                                } catch (e) {
-                                  print(e);
-                                }
-                              },
-                              child: Text('Zaloguj'),
-                            )
-                          : Container(),
+
+                      _allow ? ElevatedButton(
+                        onPressed: () async{
+                          try {
+                            _auth.signInWithEmailAndPassword(email: _email, password: _password);
+                            _userData.saveEmail(_email);
+                            _userData.savePassword(_password);
+                            _userData.saveLogged(true);
+                            Navigator.pushNamed(context, Navigation.id);
+                          } catch (e) {
+                            print (e);
+                          }
+                        },
+                        child: Text('Zaloguj'),
+                      ) : Container(),
                     ],
                   ),
                 ),

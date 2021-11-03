@@ -15,7 +15,7 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
-  int _selectedIndex = 1;
+  int _selectedIndex=1;
   List<Widget> pages = [CardScreen(), HomeScreen(), SettingsScreen()];
 
   UserData _userData = UserData();
@@ -24,23 +24,22 @@ class _NavigationState extends State<Navigation> {
   String _email = '';
   String _password = '';
 
-  void updateEmail(String? email) {
+  void updateEmail(String? email){
     setState(() {
       this._email = email!;
     });
   }
 
-  void updatePassword(String? password) {
+  void updatePassword(String? password){
     setState(() {
       this._password = password!;
     });
   }
 
   void tryLogin(String email, String password) async {
-    if (email != '' && password != '') {
+    if (email != '' && password != ''){
       try {
-        await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
+        await _auth.signInWithEmailAndPassword(email: email, password: password);
         print('Zalogowano');
       } catch (e) {
         print(e);
@@ -73,39 +72,33 @@ class _NavigationState extends State<Navigation> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                  },
-                  child: Icon(
-                    Icons.local_play,
-                    size: _selectedIndex == 0 ? 35 : 25,
-                    color: _selectedIndex == 0 ? Colors.green : Colors.grey,
-                  )),
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 1;
-                    });
-                  },
-                  child: Icon(
-                    Icons.home,
-                    size: _selectedIndex == 1 ? 35 : 25,
-                    color: _selectedIndex == 1 ? Colors.green : Colors.grey,
-                  )),
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 2;
-                    });
-                  },
-                  child: Icon(
-                    Icons.settings,
-                    size: _selectedIndex == 2 ? 35 : 25,
-                    color: _selectedIndex == 2 ? Colors.green : Colors.grey,
-                  )),
+              TextButton(onPressed: () {
+                setState(() {
+                  _selectedIndex = 0;
+                });
+              }, child: Icon(
+                Icons.local_play,
+                size: _selectedIndex == 0 ? 35 : 25,
+                color: _selectedIndex == 0 ? Colors.green : Colors.grey,
+              )),
+              TextButton(onPressed: () {
+                setState(() {
+                  _selectedIndex = 1;
+                });
+              }, child: Icon(
+                Icons.home,
+                size: _selectedIndex == 1 ? 35 : 25,
+                color: _selectedIndex == 1 ? Colors.green : Colors.grey,
+              )),
+              TextButton(onPressed: () {
+                setState(() {
+                  _selectedIndex = 2;
+                });
+              }, child: Icon(
+                Icons.settings,
+                size: _selectedIndex == 2 ? 35 : 25,
+                color: _selectedIndex == 2 ? Colors.green : Colors.grey,
+              )),
             ],
           ),
         ),

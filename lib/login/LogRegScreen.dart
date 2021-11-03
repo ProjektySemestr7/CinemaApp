@@ -22,9 +22,11 @@ class LogRegScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent),
             ),
+
             SizedBox(
               height: 50,
             ),
+
             Container(
               width: 250,
               height: 100,
@@ -33,7 +35,7 @@ class LogRegScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextButton(
-                onPressed: () {
+                onPressed: (){
                   Navigator.pushNamed(context, LogInScreen.id);
                 },
                 child: Text(
@@ -45,9 +47,11 @@ class LogRegScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             SizedBox(
               height: 50,
             ),
+
             Text(
               'lub',
               style: TextStyle(
@@ -55,9 +59,11 @@ class LogRegScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent),
             ),
+
             SizedBox(
               height: 50,
             ),
+
             Container(
               width: 250,
               height: 100,
@@ -66,7 +72,7 @@ class LogRegScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextButton(
-                onPressed: () {
+                onPressed: (){
                   Navigator.pushNamed(context, RegisterScreen.id);
                 },
                 child: Text(

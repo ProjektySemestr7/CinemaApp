@@ -1,3 +1,6 @@
+import 'package:cinema/login/LogRegScreen.dart';
+import 'package:cinema/login/LoginScreen.dart';
+import 'package:cinema/login/RegisterScreen.dart';
 import 'package:cinema/screens/CardScreen.dart';
 import 'package:cinema/screens/HomeScreen.dart';
 import 'package:cinema/screens/SettingScreen.dart';
@@ -5,10 +8,6 @@ import 'package:cinema/screens/supporting/Navigation.dart';
 import 'package:cinema/storages/UserData.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'login/LogInScreen.dart';
-import 'login/LogRegScreen.dart';
-import 'login/RegisterScreen.dart';
 
 UserData _userData = UserData();
 Widget _defaultHome = LogRegScreen();
