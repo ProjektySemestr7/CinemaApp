@@ -1,5 +1,5 @@
-import 'package:cinema/login/LoginScreen.dart';
-import 'package:cinema/login/RegisterScreen.dart';
+import 'package:cinema/login/login_screen.dart';
+import 'package:cinema/login/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,18 +15,16 @@ class LogRegScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Masz już konto?',
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent),
             ),
-
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-
             Container(
               width: 250,
               height: 100,
@@ -35,10 +33,10 @@ class LogRegScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.pushNamed(context, LogInScreen.id);
                 },
-                child: Text(
+                child: const Text(
                   'Zaloguj',
                   style: TextStyle(
                       fontSize: 30,
@@ -47,23 +45,19 @@ class LogRegScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-
-            Text(
+            const Text(
               'lub',
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent),
             ),
-
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-
             Container(
               width: 250,
               height: 100,
@@ -72,10 +66,10 @@ class LogRegScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.pushNamed(context, RegisterScreen.id);
                 },
-                child: Text(
+                child: const Text(
                   'Zarejestruj',
                   style: TextStyle(
                       fontSize: 30,

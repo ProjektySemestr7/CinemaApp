@@ -1,10 +1,9 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserData {
-  String _email = 'email';
-  String _password = 'password';
-  String _logged = 'logged';
+  final String _email = 'email';
+  final String _password = 'password';
+  final String _logged = 'logged';
 
   saveEmail(String email) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -38,5 +37,4 @@ class UserData {
     bool? logged = prefs.getBool(_logged);
     return logged;
   }
-
 }

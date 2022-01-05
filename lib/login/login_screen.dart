@@ -1,6 +1,5 @@
-import 'package:cinema/screens/supporting/Navigation.dart';
-import 'package:cinema/storages/UserData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cinema/screens/supporting/navigation.dart';
+import 'package:cinema/storages/user_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,23 +13,21 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-
-  UserData _userData = UserData();
+  final UserData _userData = UserData();
   final _auth = FirebaseAuth.instance;
 
   bool card = false;
-  late String _email;
-  late String _password;
+  late String _email = '';
+  late String _password = '';
 
   bool _allow = false;
 
   void checkAllow() {
-    if((_email != null) && (_password != null)) {
+    if ((_email.isNotEmpty) && (_password.isNotEmpty)) {
       setState(() {
         _allow = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         _allow = false;
       });
@@ -57,15 +54,14 @@ class _LogInScreenState extends State<LogInScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'Email',
                             style: TextStyle(
                               color: Colors.blueAccent,
                               fontSize: 25,
                             ),
                           ),
-
-                          Container(
+                          SizedBox(
                             width: 200,
                             child: TextField(
                               onChanged: (input) {
@@ -81,15 +77,14 @@ class _LogInScreenState extends State<LogInScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'Hasło',
                             style: TextStyle(
                               color: Colors.blueAccent,
                               fontSize: 25,
                             ),
                           ),
-
-                          Container(
+                          SizedBox(
                             width: 200,
                             child: TextField(
                               obscureText: true,
@@ -99,24 +94,32 @@ class _LogInScreenState extends State<LogInScreen> {
                               },
                             ),
                           ),
-
                         ],
                       ),
+                      _allow
+                          ? ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("xd"),
+                                    duration: Duration(milliseconds: 5000),
+                                  ));
 
-                      _allow ? ElevatedButton(
-                        onPressed: () async{
-                          try {
-                            _auth.signInWithEmailAndPassword(email: _email, password: _password);
-                            _userData.saveEmail(_email);
-                            _userData.savePassword(_password);
-                            _userData.saveLogged(true);
-                            Navigator.pushNamed(context, Navigation.id);
-                          } catch (e) {
-                            print (e);
-                          }
-                        },
-                        child: Text('Zaloguj'),
-                      ) : Container(),
+                                  await _auth.signInWithEmailAndPassword(
+                                      email: _email, password: _password);
+
+                                  _userData.saveEmail(_email);
+                                  _userData.savePassword(_password);
+                                  _userData.saveLogged(true);
+                                  Navigator.pushNamed(context, Navigation.id);
+                                } catch (e) {
+                                  print(e);
+                                }
+                              },
+                              child: const Text('Zaloguj'),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),
